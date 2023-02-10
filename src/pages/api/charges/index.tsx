@@ -1,10 +1,10 @@
-import { connect } from "@components/db/connect"
+import { connectMongo } from "@components/db/connectMongo"
 import { ChargeModel } from "@components/db/models/charge"
 import type { NextApiRequest, NextApiResponse } from "next"
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method === "GET") {
-        await connect()
+        await connectMongo()
         const results = await ChargeModel.find({})
 
         res.status(200).json(results)

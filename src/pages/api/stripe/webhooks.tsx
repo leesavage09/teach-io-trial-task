@@ -1,8 +1,7 @@
-import { connect } from "@components/db/connect"
+import { connectMongo } from "@components/db/connectMongo"
 import { Charge, ChargeModel } from "@components/db/models/charge"
 import type { NextApiRequest, NextApiResponse } from "next"
 import Stripe from "stripe"
-
 
 const handleChargeSucceeded = async (charge: Stripe.Charge) => {
     const data: Charge = {
@@ -14,10 +13,18 @@ const handleChargeSucceeded = async (charge: Stripe.Charge) => {
         created: charge.created,
         refunded: charge.refunded
     }
-
-    await connect()
+    await connectMongo()
     const model = new ChargeModel(data)
     model.save()
+}
+
+const handleChargeRefunded = async (refund: Stripe.Refund) => {
+    await connectMongo()
+    // TODO missing type info here
+    const charge = await ChargeModel.findOne({ chargeID: refund.id })
+    if (!charge) throw Error("unable to update DB refund received for unknown charge")
+    charge.refunded = true
+    charge.save()
 }
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -25,8 +32,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     const event = req.body as Stripe.Event
 
     if (event.type === "charge.succeeded") handleChargeSucceeded(event.data.object as Stripe.Charge)
-
-
+    if (event.type === "charge.refunded") handleChargeRefunded(event.data.object as Stripe.Refund)
 
     res.status(200).json(null)
 }
