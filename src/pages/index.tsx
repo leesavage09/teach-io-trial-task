@@ -17,7 +17,7 @@ export default function Home() {
 
     const refund = (chargeID: string) => {
         axios.get("api/stripe/refund/" + chargeID).then(() => {
-            // TODO less than ideal way to update the UI after the webhook comes back
+            // TODO less than ideal way to update the UI after the webhook comes back https://socket.io/
             setTimeout(() => {
                 update()
             }, 1500)
