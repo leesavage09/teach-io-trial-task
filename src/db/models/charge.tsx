@@ -36,4 +36,4 @@ const chargeSchema = new mongoose.Schema<Charge>({
     },
 })
 
-export const ChargeModel = mongoose.models.Charge || mongoose.model("Charge", chargeSchema)
+export const ChargeModel = mongoose.models.Charge as mongoose.Model<Charge> || mongoose.model<Charge>("Charge", chargeSchema) 

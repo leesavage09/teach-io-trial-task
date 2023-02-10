@@ -20,9 +20,8 @@ const handleChargeSucceeded = async (charge: Stripe.Charge) => {
 
 const handleChargeRefunded = async (refund: Stripe.Refund) => {
     await connectMongo()
-    // TODO missing type info here
     const charge = await ChargeModel.findOne({ chargeID: refund.id })
-    if (!charge) throw Error("unable to update DB refund received for unknown charge")
+    if (!charge) throw Error("unable to update DB, refund received for unknown charge")
     charge.refunded = true
     charge.save()
 }
