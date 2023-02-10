@@ -7,10 +7,22 @@ import axios from "axios"
 
 export default function Home() {
     const [charges, setCharges] = useState<[Charge]>()
+    const [loading, setLoading] = useState(false)
 
     const update = () => {
         axios.get("api/charges").then((result) => {
             setCharges(result.data)
+            setLoading(false)
+        })
+    }
+
+    const refund = (chargeID: string) => {
+        axios.get("api/stripe/refund/" + chargeID).then(() => {
+            // TODO less than ideal way to update the UI after the webhook comes back
+            setLoading(true)
+            setTimeout(() => {
+                update()
+            }, 1000)
         })
     }
 
@@ -54,7 +66,12 @@ export default function Home() {
                             </table>
                             <p>{charge.refunded && "This Charge has been refunded"}</p>
                             {!charge.refunded && (
-                                <button onClick={() => console.log("TODO refund charge " + charge.chargeID)}>Refund</button>
+                                <button
+                                    disabled={loading}
+                                    onClick={() => refund(charge.chargeID)}
+                                >
+                                    Refund
+                                </button>
                             )}
                         </li>
                     ))}
