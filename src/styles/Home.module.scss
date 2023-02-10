@@ -1,7 +1,7 @@
 .main {
     display: flex;
     flex-direction: column;
-    justify-content: start;
+    justify-content: flex-start;
     align-items: center;
     padding: 6rem;
     min-height: 100vh;
@@ -30,5 +30,31 @@
                 }
             }
         }
+    }
+
+    button {
+        padding: 0.5rem;
+        background-color: red;
+        color: white;
+        border: none;
+        
+        &:hover {
+            background-color: pink;
+            color: black;
+        }
+    }
+
+    .refreshButton {
+        background-color: black;
+        color: white;
+
+        &:hover {
+            background-color: grey;
+            color: black;
+        }
+    }
+
+    p {
+        color: red;
     }
 }
