@@ -17,7 +17,7 @@ export const ChargeListItem: React.FC<ChargeListItemProps> = ({ charge, onRefund
                 </tr>
                 <tr>
                     <td>amount</td>
-                    {/* TODO just rendering £. will need better rendering */}
+                    {/* TODO just rendering £. this will need to take other currency's into account */}
                     <td>£{charge.amount / 100}</td>
                 </tr>
                 <tr>
@@ -32,9 +32,7 @@ export const ChargeListItem: React.FC<ChargeListItemProps> = ({ charge, onRefund
         </table>
         <p>{charge.refunded && "This Charge has been refunded"}</p>
         {!charge.refunded && (
-            <button
-                onClick={() => onRefund(charge.chargeID)}
-            >
+            <button onClick={() => onRefund(charge.chargeID)} >
                 Refund
             </button>
         )}
