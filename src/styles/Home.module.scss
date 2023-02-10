@@ -1,0 +1,33 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    padding: 6rem;
+    min-height: 100vh;
+
+    h1 {
+        margin-bottom: 1rem;
+    }
+
+    ul {
+        list-style: none;
+        li {
+            border-style: solid;
+            border-radius: 1rem;
+            border-width: 1px;
+            padding: 1rem;
+        }
+    }
+
+    table {
+        tbody {
+            tr {
+                td:first-child {
+                    font-weight: bold;
+                    padding-right: 1rem;
+                }
+            }
+        }
+    }
+}
