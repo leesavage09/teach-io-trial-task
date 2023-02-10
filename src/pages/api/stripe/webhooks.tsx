@@ -1,31 +1,23 @@
+import { connect } from "@components/db/connect"
+import { Charge, ChargeModel } from "@components/db/models/charge"
 import type { NextApiRequest, NextApiResponse } from "next"
 import Stripe from "stripe"
 
-type Charge = {
-    chargeID: string;
-    customerID: string | Stripe.Customer | Stripe.DeletedCustomer | null;
-    amount: number;
-    currency: string;
-    created: number;
-    refunded: boolean;
-}
 
-const handleChargeSucceeded = (charge: Stripe.Charge) => {
+const handleChargeSucceeded = async (charge: Stripe.Charge) => {
     const data: Charge = {
         chargeID: charge.id,
-        customerID: charge.customer,
+        // TODO there might be edge cases here when the type is forded to a string
+        customerID: charge.customer as string,
         amount: charge.amount_captured,
         currency: charge.currency,
         created: charge.created,
         refunded: charge.refunded
     }
 
-    console.log(data)
-
-    // connected mongoose db
-    // create mongoose schema for the obj
-    // persist the ob
-
+    await connect()
+    const model = new ChargeModel(data)
+    model.save()
 }
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
