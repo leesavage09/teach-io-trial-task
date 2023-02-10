@@ -25,7 +25,7 @@ export default function Home() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main className={styles.main}>
-                <button>Refresh Charges</button>
+                <button onClick={update}>Refresh Charges</button>
                 <h1>Charges</h1>
                 <ul>
                     {charges && charges.map((charge) => (
@@ -35,7 +35,7 @@ export default function Home() {
                                 <tbody>
                                     <tr>
                                         <td>customerID</td>
-                                        <td>{ charge.customerID}</td>
+                                        <td>{charge.customerID}</td>
                                     </tr>
                                     <tr>
                                         <td>amount</td>
@@ -54,7 +54,7 @@ export default function Home() {
                             </table>
                             <p>{charge.refunded && "This Charge has been refunded"}</p>
                             {!charge.refunded && (
-                                <button onClick={() => console.log("TODO")}>Refund</button>
+                                <button onClick={() => console.log("TODO refund charge " + charge.chargeID)}>Refund</button>
                             )}
                         </li>
                     ))}
